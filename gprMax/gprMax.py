@@ -24,6 +24,7 @@ import gc
 import os
 import platform
 import sys
+from typing import Any, List, Optional, Union
 
 from enum import Enum
 
@@ -70,20 +71,20 @@ def main():
 
 
 def api(
-    inputfile,
-    n=1,
-    task=None,
-    restart=None,
-    mpi=False,
-    mpi_no_spawn=False,
-    mpicomm=None,
-    gpu=None,
-    benchmark=False,
-    geometry_only=False,
-    geometry_fixed=False,
-    write_processed=False,
-    opt_taguchi=False
-):
+    inputfile: str,
+    n: int = 1,
+    task: Optional[int] = None,
+    restart: Optional[int] = None,
+    mpi: bool = False,
+    mpi_no_spawn: bool = False,
+    mpicomm: Any = None,
+    gpu: Optional[Union[int, List[int]]] = None,
+    benchmark: bool = False,
+    geometry_only: bool = False,
+    geometry_fixed: bool = False,
+    write_processed: bool = False,
+    opt_taguchi: bool = False
+) -> None:
     """If installed as a module this is the entry point."""
 
     class ImportArguments:

@@ -17,6 +17,7 @@
 # along with gprMax.  If not, see <http://www.gnu.org/licenses/>.
 
 from collections import OrderedDict
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 from colorama import init
 from colorama import Fore
@@ -39,40 +40,40 @@ from gprMax.utilities import round_value
 class Grid(object):
     """Generic grid/mesh."""
 
-    def __init__(self, grid):
-        self.nx = grid.shape[0]
-        self.ny = grid.shape[1]
-        self.nz = grid.shape[2]
-        self.dx = 1
-        self.dy = 1
-        self.dz = 1
-        self.i_max = self.nx - 1
-        self.j_max = self.ny - 1
-        self.k_max = self.nz - 1
-        self.grid = grid
+    def __init__(self, grid: np.ndarray) -> None:
+        self.nx: int = grid.shape[0]
+        self.ny: int = grid.shape[1]
+        self.nz: int = grid.shape[2]
+        self.dx: int = 1
+        self.dy: int = 1
+        self.dz: int = 1
+        self.i_max: int = self.nx - 1
+        self.j_max: int = self.ny - 1
+        self.k_max: int = self.nz - 1
+        self.grid: np.ndarray = grid
 
-    def n_edges(self):
+    def n_edges(self) -> int:
         i = self.nx
         j = self.ny
         k = self.nz
         e = (i * j * (k - 1)) + (j * k * (i - 1)) + (i * k * (j - 1))
         return e
 
-    def n_nodes(self):
+    def n_nodes(self) -> int:
         return self.nx * self.ny * self.nz
 
-    def n_cells(self):
+    def n_cells(self) -> int:
         return (self.nx - 1) * (self.ny - 1) * (self.nz - 1)
 
-    def get(self, i, j, k):
+    def get(self, i: int, j: int, k: int) -> Any:
         return self.grid[i, j, k]
 
-    def within_bounds(self, **kwargs):
+    def within_bounds(self, **kwargs: int) -> None:
         for co, val in kwargs.items():
             if val < 0 or val > getattr(self, 'n' + co):
                 raise ValueError(co)
 
-    def calculate_coord(self, coord, val):
+    def calculate_coord(self, coord: str, val: float) -> int:
         co = round_value(float(val) / getattr(self, 'd' + coord))
         return co
 

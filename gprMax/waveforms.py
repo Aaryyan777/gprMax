@@ -17,6 +17,7 @@
 # along with gprMax.  If not, see <http://www.gnu.org/licenses/>.
 
 import numpy as np
+from typing import Any, Callable, List, Optional
 
 from gprMax.utilities import round_value
 
@@ -24,7 +25,7 @@ from gprMax.utilities import round_value
 class Waveform(object):
     """Definitions of waveform shapes that can be used with sources."""
 
-    types = ['gaussian', 'gaussiandot', 'gaussiandotnorm', 'gaussiandotdot', 'gaussiandotdotnorm', 'gaussianprime', 'gaussiandoubleprime', 'ricker', 'sine', 'contsine', 'impulse', 'user']
+    types: List[str] = ['gaussian', 'gaussiandot', 'gaussiandotnorm', 'gaussiandotdot', 'gaussiandotdotnorm', 'gaussianprime', 'gaussiandoubleprime', 'ricker', 'sine', 'contsine', 'impulse', 'user']
 
     # Information about specific waveforms:
     #
@@ -34,17 +35,17 @@ class Waveform(object):
     # gaussiandot, gaussiandotnorm, gaussiandotdot, gaussiandotdotnorm, ricker waveforms have their centre frequencies
     # specified by the user, i.e. they are not derived from the 'base' gaussian
 
-    def __init__(self):
-        self.ID = None
-        self.type = None
-        self.amp = 1
-        self.freq = None
-        self.userfunc = None
-        self.chi = 0
-        self.zeta = 0
-        self.delay = 0
+    def __init__(self) -> None:
+        self.ID: Optional[str] = None
+        self.type: Optional[str] = None
+        self.amp: float = 1.0
+        self.freq: Optional[float] = None
+        self.userfunc: Optional[Callable[[float, float], float]] = None
+        self.chi: float = 0.0
+        self.zeta: float = 0.0
+        self.delay: float = 0.0
 
-    def calculate_coefficients(self):
+    def calculate_coefficients(self) -> None:
         """Calculates coefficients (used to calculate values) for specific waveforms."""
 
         if self.type == 'gaussian' or self.type == 'gaussiandot' or self.type == 'gaussiandotnorm' or self.type == 'gaussianprime' or self.type == 'gaussiandoubleprime':
@@ -54,7 +55,7 @@ class Waveform(object):
             self.chi = np.sqrt(2) / self.freq
             self.zeta = np.pi**2 * self.freq**2
 
-    def calculate_value(self, time, dt):
+    def calculate_value(self, time: float, dt: float) -> float:
         """Calculates value of the waveform at a specific time.
 
         Args:

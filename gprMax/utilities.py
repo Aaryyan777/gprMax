@@ -27,6 +27,7 @@ import subprocess
 from shutil import get_terminal_size
 import sys
 import textwrap
+from typing import Any, Dict, IO, Iterator, List, Optional, Tuple, Union
 
 from colorama import init
 from colorama import Fore
@@ -41,7 +42,7 @@ from gprMax.exceptions import GeneralError
 from gprMax.materials import Material
 
 
-def get_terminal_width():
+def get_terminal_width() -> int:
     """Get/set width of terminal being used.
 
     Returns:
@@ -55,7 +56,7 @@ def get_terminal_width():
     return terminalwidth
 
 
-def logo(version):
+def logo(version: str) -> None:
     """Print gprMax logo, version, and licencing/copyright information.
 
     Args:
@@ -88,7 +89,7 @@ def logo(version):
 
 
 @contextmanager
-def open_path_file(path_or_file):
+def open_path_file(path_or_file: Union[str, IO[Any]]) -> Iterator[IO[Any]]:
     """
     Accepts either a path as a string or a file object and returns a file
     object (http://stackoverflow.com/a/6783680).
